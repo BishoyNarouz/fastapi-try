@@ -1,7 +1,8 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 
-class Register(BaseModel):
+class RegisterDto(BaseModel):
     username: str
-    email: str | None = None
     password: str
+    email: EmailStr
+    fullName: str | None = None

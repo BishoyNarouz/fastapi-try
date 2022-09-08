@@ -1,5 +1,7 @@
 from fastapi import APIRouter
-from .dto import registerDto
+from modules.auth.dto.indexDto import LoginDto, RegisterDto
+from modules.auth.authService import login
+
 router = APIRouter()
 
 router = APIRouter(
@@ -8,12 +10,11 @@ router = APIRouter(
 )
 
 
-@router.get("/login")
-async def login():
-    return [{"username": "Rick"}, {"username": "Morty"}]
+@router.post("/login")
+async def login(loginDto: LoginDto):
+    return loginDto
 
 
 @router.post("/register")
-async def register(registerDto: registerDto.Register):
+async def register(registerDto: RegisterDto):
     return registerDto
-
