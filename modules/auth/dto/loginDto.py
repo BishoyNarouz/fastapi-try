@@ -2,6 +2,6 @@ from pydantic import BaseModel
 
 
 class LoginDto(BaseModel):
-    username: str
-    email: str | None = None
+    username: int
+    # email: str | None = None
     password: str
