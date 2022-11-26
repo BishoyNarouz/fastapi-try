@@ -1,15 +1,20 @@
 # Authentication
 # Authorization
-# Data Validation
-# Error HANDLING
 # Guard
+# sqlAlchemy Integration
+# Data Validation  ------> Done
+# Error HANDLING   -------> Done
 # Structure -----> Done
-# Prisma Integration
-# Virtual Packages
+# Virtual Packages --------> Done
 # env file  --------> Done
 # Virtual Env   ------> Done
 # Password Hashing and comparing --------> Done
 # importing modules
+# global prefix
+# seeders
+# prisma upgrade to 4.6.1
+
+import os
 
 from starlette.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
@@ -41,5 +46,20 @@ async def validation_exception_handler(request, exc):
     )
 
 
-app.include_router(userController.router)
-app.include_router(authController.router)
+from prisma import Prisma
+
+prisma = Prisma(auto_register=True)
+
+
+@app.on_event("startup")
+async def startup():
+    await prisma.connect()
+
+
+@app.on_event("shutdown")
+async def shutdown():
+    await prisma.disconnect()
+
+
+app.include_router(userController.router, prefix=os.getenv("GLOBAL_PREFIX"))
+app.include_router(authController.router, prefix=os.getenv("GLOBAL_PREFIX"))

@@ -1,0 +1,17 @@
+generator client {
+  provider               = "prisma-client-py"
+  recursive_type_depth   = -1
+  interface              = "asyncio"
+  partial_type_generator = "scripts/partial_types.py"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id    Int     @id @default(autoincrement())
+  email String  @unique
+  name  String?
+}

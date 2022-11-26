@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
 router = APIRouter()
-
+from prisma.models import User
 
 router = APIRouter(
     prefix="/users",
@@ -13,6 +13,9 @@ router = APIRouter(
 
 @router.get("/")
 async def read_users():
+    res = await User.prisma().find_many()
+    print(res)
+    return res
     return [{"username": "Rick"}, {"username": "Morty"}]
 
 
